@@ -2,47 +2,93 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STUDYFORGE OS | Ali Abouelnour</title>
+    <title>STUDYFORGE OS</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        .glass-card { background: rgba(30, 41, 59, 0.4); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.05); }
-        .nav-item { transition: all 0.2s; border-right: 3px solid transparent; }
-        .nav-item:hover { background: rgba(59, 130, 246, 0.1); color: #60a5fa; }
-        .nav-active { background: rgba(59, 130, 246, 0.2); color: #60a5fa; border-right: 3px solid #3b82f6; }
-        .hidden-section { display: none; }
+        .sidebar { width: 250px; background: #020617; border-right: 1px solid #1e293b; height: 100vh; position: fixed; }
+        .content { margin-left: 250px; padding: 40px; background: #020617; min-height: 100vh; color: white; }
+        .nav-btn { width: 100%; padding: 15px; text-align: left; color: #94a3b8; cursor: pointer; border: none; background: none; font-weight: bold; }
+        .nav-btn:hover { background: #1e293b; color: white; }
+        .active-btn { color: #3b82f6; border-right: 4px solid #3b82f6; background: #0f172a; }
+        .page-section { display: none; }
+        .show { display: block !important; }
     </style>
 </head>
-<body class="bg-[#020617] text-slate-200 font-sans overflow-hidden">
+<body style="margin:0; background:#020617;">
 
-    <div class="flex h-screen w-full">
-        <aside class="w-64 border-r border-slate-800 bg-[#020617] flex flex-col">
-            <div class="p-6">
-                <h1 class="text-2xl font-black italic tracking-tighter text-blue-500 underline">STUDYFORGE</h1>
-                <p class="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Base44 Elite Engine</p>
+    <div class="sidebar">
+        <div style="padding: 20px;">
+            <h1 style="color: #3b82f6; font-size: 24px; font-weight: 900; font-style: italic;">STUDYFORGE</h1>
+            <p style="color: #475569; font-size: 10px; font-weight: bold; letter-spacing: 2px;">BASE44 ELITE</p>
+        </div>
+        <button onclick="openTab('dash')" id="btn-dash" class="nav-btn active-btn">DASHBOARD</button>
+        <button onclick="openTab('voice')" id="btn-voice" class="nav-btn">VOICE LAB</button>
+        <button onclick="openTab('quiz')" id="btn-quiz" class="nav-btn">EXAM QUIZ</button>
+    </div>
+
+    <div class="content">
+        
+        <div id="dash" class="page-section show">
+            <h2 style="font-size: 32px; font-weight: 900; margin-bottom: 20px;">COMMAND CENTER</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div style="background: #0f172a; padding: 20px; border-radius: 20px; border: 1px solid #1e293b;">
+                    <p style="color: #64748b; font-size: 12px; font-weight: bold;">USER GPA</p>
+                    <h3 style="font-size: 30px;">4.0</h3>
+                </div>
+                <div style="background: #0f172a; padding: 20px; border-radius: 20px; border: 1px solid #1e293b;">
+                    <p style="color: #64748b; font-size: 12px; font-weight: bold;">READINESS</p>
+                    <h3 style="font-size: 30px;">98%</h3>
+                </div>
             </div>
-            
-            <nav class="flex-1 mt-4">
-                <div onclick="showSection('dash')" id="nav-dash" class="nav-item nav-active p-4 flex items-center gap-3 cursor-pointer">
-                    <i class="fas fa-chart-pie"></i> <span class="font-semibold text-sm">Dashboard</span>
-                </div>
-                <div onclick="showSection('voice')" id="nav-voice" class="nav-item p-4 flex items-center gap-3 cursor-pointer text-slate-400">
-                    <i class="fas fa-microphone"></i> <span class="font-semibold text-sm">Voice Lab</span>
-                </div>
-                <div onclick="showSection('quiz')" id="nav-quiz" class="nav-item p-4 flex items-center gap-3 cursor-pointer text-slate-400">
-                    <i class="fas fa-book-open"></i> <span class="font-semibold text-sm">Exam Quizzes</span>
-                </div>
-            </nav>
+        </div>
 
-            <div class="p-6 border-t border-slate-800 text-[10px] text-slate-500 font-bold uppercase tracking-widest">
-                User: Ali Abouelnour
+        <div id="voice" class="page-section">
+            <h2 style="font-size: 32px; font-weight: 900; margin-bottom: 10px;">VOICE LAB</h2>
+            <p style="color: #64748b; margin-bottom: 30px;">Filter background noise and remove stutters.</p>
+            <button onclick="runAudio()" style="background: #2563eb; color: white; padding: 15px 30px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer;">START RECORDING</button>
+            <div id="voice-txt" style="margin-top: 30px; background: #000; padding: 20px; border-radius: 15px; color: #94a3b8; font-style: italic; border: 1px solid #1e293b;">
+                Waiting for input...
             </div>
-        </aside>
+        </div>
 
-        <main class="flex-1 overflow-y-auto bg-[#020617]">
-            
-            <div id="section-dash" class="p-8 animate-fadeIn">
-                <h2 class="text-3xl font-black mb-6">Welcome Back, Ali</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    <div class="glass-card p-6 rounded-2xl border-t-2 border-t
+        <div id="quiz" class="page-section">
+            <h2 style="font-size: 32px; font-weight: 900; margin-bottom: 10px;">EXAM SIMULATOR</h2>
+            <div style="background: #0f172a; padding: 30px; border-radius: 20px; border: 1px solid #1e293b;">
+                <p style="font-size: 18px; margin-bottom: 20px;">A student holds a bag perfectly still. Is scientific "Work" being done?</p>
+                <button onclick="this.innerText='Correct ✓'" style="display: block; width: 100%; text-align: left; padding: 15px; background: #1e293b; color: white; border: 1px solid #334155; border-radius: 10px; margin-bottom: 10px; cursor: pointer;">No, because displacement is zero.</button>
+                <button onclick="this.innerText='Wrong ✗'" style="display: block; width: 100%; text-align: left; padding: 15px; background: #1e293b; color: white; border: 1px solid #334155; border-radius: 10px; cursor: pointer;">Yes, because the bag is heavy.</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function openTab(tabId) {
+            // Hide all pages
+            var pages = document.getElementsByClassName('page-section');
+            for (var i = 0; i < pages.length; i++) {
+                pages[i].classList.remove('show');
+            }
+            // Show the clicked page
+            document.getElementById(tabId).classList.add('show');
+
+            // Update buttons
+            var buttons = document.getElementsByClassName('nav-btn');
+            for (var j = 0; j < buttons.length; j++) {
+                buttons[j].classList.remove('active-btn');
+            }
+            document.getElementById('btn-' + tabId).classList.add('active-btn');
+        }
+
+        function runAudio() {
+            var box = document.getElementById('voice-txt');
+            box.innerText = "Processing audio... Removing fillers...";
+            setTimeout(function() {
+                box.innerText = "CLEANED: Newton's 2nd Law states F=ma. On the exam, remember that holding an object still is ZERO work.";
+                box.style.color = "#3b82f6";
+                box.style.fontStyle = "normal";
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
