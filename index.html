@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STUDYFORGE | Ali Abouelnour</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-950 text-white min-h-screen p-6 font-sans">
+
+    <header class="max-w-4xl mx-auto flex justify-between items-center mb-12 border-b border-slate-800 pb-8">
+        <h1 class="text-3xl font-black italic text-blue-500 tracking-tight">STUDYFORGE AI</h1>
+        <div class="bg-blue-600/20 text-blue-400 px-4 py-1 rounded-full text-xs font-bold border border-blue-500/30 uppercase">7th Grade Active</div>
+    </header>
+
+    <main class="max-w-4xl mx-auto grid md:grid-cols-2 gap-10">
+        
+        <section class="bg-slate-900 p-8 rounded-3xl border border-slate-800 shadow-2xl">
+            <h2 class="text-xl font-bold mb-2">🎙️ Voice Notes</h2>
+            <p class="text-slate-500 text-sm mb-8">AI handles background noise and removes stutters.</p>
+            
+            <button onclick="cleanNotes()" class="w-full bg-blue-600 hover:bg-blue-500 py-4 rounded-2xl font-black text-lg transition-all active:scale-95 shadow-xl shadow-blue-600/30">
+                START CLEAN RECORDING
+            </button>
+
+            <div id="transcript" class="mt-8 p-5 bg-slate-950 rounded-2xl border border-slate-800 min-h-[140px] text-slate-400 italic text-sm leading-relaxed">
+                Listening for notes...
+            </div>
+        </section>
+
+        <section class="bg-slate-900 p-8 rounded-3xl border border-slate-800 shadow-2xl">
+            <h2 class="text-xl font-bold mb-2">📝 Exam-Level Quiz</h2>
+            <p class="text-slate-500 text-sm mb-8">Difficulty based on past Science & History exams.</p>
+            
+            <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800">
+                <p id="q-text" class="text-lg font-semibold mb-6 text-blue-50">
+                    If mass doubles but force stays the same, what happens to acceleration?
+                </p>
+                <div class="space-y-3">
+                    <button onclick="ans(this, false)" class="w-full text-left p-4 rounded-xl bg-slate-900 border border-slate-800 hover:border-blue-500 transition-all">It doubles</button>
+                    <button onclick="ans(this, true)" class="w-full text-left p-4 rounded-xl bg-slate-900 border border-slate-800 hover:border-blue-500 transition-all font-medium">It is halved</button>
+                    <button onclick="ans(this, false)" class="w-full text-left p-4 rounded-xl bg-slate-900 border border-slate-800 hover:border-blue-500 transition-all">It stays constant</button>
+                </div>
+                <p id="feedback" class="mt-6 text-center font-black text-xl italic uppercase tracking-widest"></p>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        function cleanNotes() {
+            const box = document.getElementById('transcript');
+            box.innerText = "Cleaning audio... removing stutters...";
+            setTimeout(() => {
+                box.innerText = "TRANSCRIPT CLEANED: Newton's 2nd Law (F=ma). Force is directly proportional to acceleration. Vocabulary terms: Inertia, Net Force, Friction.";
+                box.classList.remove('italic', 'text-slate-400');
+                box.classList.add('text-blue-400');
+            }, 1500);
+        }
+
+        function ans(btn, correct) {
+            const f = document.getElementById('feedback');
+            if(correct) {
+                f.innerText = "✓ Correct";
+                f.style.color = "#4ade80";
+            } else {
+                f.innerText = "× Try Again";
+                f.style.color = "#f87171";
+            }
+        }
+    </script>
+</body>
+</html>
